@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package jobworkerp.runner;
+
+// # Output Items
+// Contains a list of output items produced by a job execution
+message ResultOutput {
+    repeated bytes items = 1;
+}
+
+// # Job Result Status
+// Defines possible status outcomes for a job execution
+enum ResultStatus {
+    // # Success
+    // The job completed successfully without errors
+    SUCCESS = 0;
+    
+    // # Error With Retry
+    // An error occurred but the job will be retried
+    ERROR_AND_RETRY = 1;
+    
+    // # Fatal Error
+    // A critical error occurred in the worker and the job cannot be retried
+    FATAL_ERROR = 2;
+    
+    // # Abort
+    // The job was intentionally aborted and cannot be retried
+    ABORT = 3;
+    
+    // # Maximum Retries Reached
+    // The job has reached its maximum retry attempts and will not be retried further
+    MAX_RETRY = 4;
+    
+    // # Other Error
+    // An unexpected system error occurred and the job cannot be retried
+    OTHER_ERROR = 5;
+}
